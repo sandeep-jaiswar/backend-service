@@ -8,11 +8,11 @@
     <version>3.2.1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.example</groupId>
-  <artifactId>demo</artifactId>
+  <groupId>com.apep</groupId>
+  <artifactId>avengers</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>demo</name>
-  <description>Demo project for Spring Boot</description>
+  <name>avengers</name>
+  <description>Avengers project for Spring Boot</description>
   <properties>
     <java.version>17</java.version>
   </properties>
@@ -21,6 +21,20 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+
+    <!-- OpenHFT Chronicle Map -->
+    <dependency>
+        <groupId>net.openhft</groupId>
+        <artifactId>chronicle-map</artifactId>
+        <version>3.22ea5</version> <!-- Using a common version -->
+    </dependency>
+
+    <!-- Jakarta Annotation API for @PostConstruct and @PreDestroy -->
+     <dependency>
+         <groupId>jakarta.annotation</groupId>
+         <artifactId>jakarta.annotation-api</artifactId>
+     </dependency>
+
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -40,6 +54,23 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+            <jvmArguments>
+                --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+            </jvmArguments>
+        </configuration>
+      </plugin>
+      <!-- Configuration for maven-surefire-plugin to allow reflective access -->
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+              <argLine>
+                  --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                  --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+              </argLine>
+          </configuration>
       </plugin>
     </plugins>
   </build>
