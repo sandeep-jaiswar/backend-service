@@ -1,0 +1,76 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.1'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.apep'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+description = 'Avengers project for Spring Boot'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // OpenHFT Chronicle Map
+    implementation 'net.openhft:chronicle-map:3.22ea5'
+
+    // Jakarta Annotation API for @PostConstruct and @PreDestroy
+    implementation 'jakarta.annotation:jakarta.annotation-api'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Boot Starter Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // PostgreSQL driver
+    runtimeOnly 'org.postgresql:postgresql:42.7.5'
+
+    // Spring Boot Devtools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Spring Boot Starter Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += [
+            '--add-opens', 'java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens', 'java.base/sun.nio.ch=ALL-UNNAMED'
+    ]
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    jvmArgs ([
+        '--add-opens', 'java.base/java.lang.reflect=ALL-UNNAMED',
+        '--add-opens', 'java.base/sun.nio.ch=ALL-UNNAMED'
+    ])
+}
+
+// Configuration for Spring Boot's repackaging
+bootJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+    // If you had specific configurations for spring-boot-maven-plugin's execution,
+    // they would be translated here. The jvmArguments are handled by the application plugin
+    // or by directly configuring the bootRun task if needed.
+}
+
+// If you need to pass JVM arguments when running the application via `gradle bootRun`
+tasks.named('bootRun') {
+    jvmArgs ([
+        '--add-opens', 'java.base/java.lang.reflect=ALL-UNNAMED',
+        '--add-opens', 'java.base/sun.nio.ch=ALL-UNNAMED'
+    ])
+}
+
+// The project name is derived from the folder name by default in Gradle,
+// or you can set it explicitly if needed:
+rootProject.name = 'avengers'

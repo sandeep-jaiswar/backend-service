@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class AvengersApplication {
 
-  @Value("${NAME:World}")
-  String name;
-
   @RestController
   class HelloworldController {
     @GetMapping("/")
     String hello() {
-      return "Hello " + name + "!";
+      return "Hello World";
     }
   }
 
