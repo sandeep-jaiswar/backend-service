@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-initial-schema
+      author: sandeep-jaiswar
+      comment: Create initial tables for Modulith event publication and messages
+      changes:
+        - sql:
+            # DDL for Spring Modulith's event_publication table
+            # NOTE: This table requires strong transactional guarantees usually provided by traditional RDBMS.
+            # Using ClickHouse for this may lead to issues with reliable event publishing.
+            # Adjust engine and types based on your ClickHouse version and needs.
+            # String columns for UUIDs and timestamps are often stored as FixedString(16) for UUIDs or DateTime/DateTime64 for timestamps in ClickHouse.
+            # For simplicity, using String/DateTime64 as approximations.
+            sql: |
+              CREATE TABLE IF NOT EXISTS event_publication (
+                  id FixedString(16),
+                  completion_date DateTime64(6, 'UTC'),
+                  event_type String,
+                  listener_id String,
+                  publication_date DateTime64(6, 'UTC'),
+                  serialized_event String
+              ) ENGINE = MergeTree()
+              ORDER BY (id);
+        - sql:
+            # DDL for our Message entity
+            sql: |
+              CREATE TABLE IF NOT EXISTS messages (
+                  id UUID,
+                  content String,
+                  timestamp DateTime64(3, 'UTC')
+              ) ENGINE = MergeTree()
+              ORDER BY (id);

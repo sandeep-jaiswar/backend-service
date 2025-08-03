@@ -5,31 +5,27 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.mephisto</groupId>
-    <artifactId>your-artifact-name</artifactId>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.apep</groupId>
+    <artifactId>avengers</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>21</java.version>
-        <spring.boot.version>3.5.4</spring.boot.version>
         <spring.modulith.version>1.4.1</spring.modulith.version>
         <clickhouse.version>0.6.5</clickhouse.version>
-        <httpclient5.version>5.2.3</httpclient5.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
+        <!-- httpclient5.version and testcontainers.version are managed by Spring Boot parent's BOM -->
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring Boot BOM -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
             <!-- Spring Modulith BOM -->
             <dependency>
                 <groupId>org.springframework.modulith</groupId>
@@ -76,17 +72,24 @@
             <artifactId>clickhouse-jdbc</artifactId>
             <version>${clickhouse.version}</version>
         </dependency>
+        <!-- httpclient5 is a transitive dependency of clickhouse-jdbc, but explicitly defined for version control if needed -->
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            </dependency>
+        </dependency>
+
+        <!-- Liquibase -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
 
         <!-- Utilities -->
         <dependency>
-		    <groupId>org.lz4</groupId>
-		    <artifactId>lz4-java</artifactId>
-		    <version>1.8.0</version>
-		</dependency>
+            <groupId>org.lz4</groupId>
+            <artifactId>lz4-java</artifactId>
+            <version>1.8.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -132,11 +135,10 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot plugin -->
+            <!-- Spring Boot plugin is managed by parent -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>4.0.0-M1</version>
             </plugin>
 
             <!-- Compiler plugin for Java 21 -->
@@ -161,4 +163,3 @@
         </plugins>
     </build>
 </project>
-
