@@ -79,10 +79,15 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>${httpclient5.version}</version>
-        </dependency>
+            </dependency>
 
         <!-- Utilities -->
+        <dependency>
+		    <groupId>org.lz4</groupId>
+		    <artifactId>lz4-java</artifactId>
+		    <version>1.8.0</version>
+		</dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -116,7 +121,6 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>clickhouse</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -132,6 +136,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>4.0.0-M1</version>
             </plugin>
 
             <!-- Compiler plugin for Java 21 -->
